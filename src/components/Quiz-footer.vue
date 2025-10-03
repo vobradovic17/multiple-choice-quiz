@@ -96,5 +96,11 @@ defineEmits(['resetQuiz', 'checkAnswer', 'showSolution', 'nextQuestion', 'toggle
       cursor: auto;
     }
   }
+
+  @media (max-width: 480px) {
+    .mcq-footer__button {
+      font-size: 0.88em;
+    }
+  }
 }
 </style>
