@@ -121,7 +121,7 @@ const questionOptions = computed(() => {
     box-shadow: 0 0 1px 1px var(--color-success);
 
     .mcq-options__marker {
-      background-image: url('../public/check-mark.svg');
+      background-image: url('../check-mark.svg');
       background-color: var(--color-success);
     }
   }
@@ -131,7 +131,7 @@ const questionOptions = computed(() => {
     box-shadow: 0 0 1px 1px var(--color-fail);
 
     .mcq-options__marker {
-      background-image: url('../public/cross-mark.svg');
+      background-image: url('../cross-mark.svg');
       background-color: var(--color-fail);
     }
   }
@@ -141,7 +141,7 @@ const questionOptions = computed(() => {
     box-shadow: 0 0 1px 1px var(--color-success);
 
     .mcq-options__marker {
-      background-image: url('../public/check-mark.svg');
+      background-image: url('../check-mark.svg');
       background-color: var(--color-success);
     }
   }

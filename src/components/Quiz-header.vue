@@ -52,11 +52,11 @@ defineProps(['questions', 'questionIndex'])
     }
 
     &.mcq-bullets__bullet--correct {
-      background: var(--color-success) url('../public/check-mark.svg') center / 60% no-repeat;
+      background: var(--color-success) url('../check-mark.svg') center / 60% no-repeat;
     }
 
     &.mcq-bullets__bullet--wrong {
-      background: var(--color-fail) url('../public/cross-mark.svg') center / 60% no-repeat;
+      background: var(--color-fail) url('../cross-mark.svg') center / 60% no-repeat;
     }
   }
 }
