@@ -1,16 +1,17 @@
 <script setup>
-defineProps(['questions', 'questionIndex'])
+import { quizData } from '@/store/store'
+const store = quizData()
 </script>
 <template>
   <div class="mcq-header">
     <p class="mcq-title">Multiple Choice Quiz</p>
     <div class="mcq-bullets">
       <div
-        v-for="(question, index) in questions"
+        v-for="(question, index) in store.questions"
         :key="`question-${index}`"
         class="mcq-bullets__bullet"
         :class="{
-          'mcq-bullets__bullet--active': index == questionIndex,
+          'mcq-bullets__bullet--active': index == store.questionIndex,
           'mcq-bullets__bullet--correct': question.isAnswered && question.isCorrect,
           'mcq-bullets__bullet--wrong': question.isAnswered && !question.isCorrect,
         }"

@@ -1,12 +1,12 @@
 <script setup>
-defineProps(['settingsOn', 'isSubmitted', 'isCorrect', 'questions', 'questionIndex'])
-defineEmits(['resetQuiz', 'checkAnswer', 'showSolution', 'nextQuestion', 'toggleSettings'])
+import { quizData } from '@/store/store'
+const store = quizData()
 </script>
 <template>
-  <div class="mcq-footer" :class="{ 'mcq-hidden': settingsOn }">
+  <div class="mcq-footer" :class="{ 'mcq-hidden': store.settingsOn }">
     <button
       class="mcq-button mcq-button--reset mcq-button--align-right mcq-button--smaller"
-      @click="$emit('resetQuiz')"
+      @click="store.resetQuiz"
       aria-label="reset quiz"
     >
       &#8634;
@@ -14,34 +14,34 @@ defineEmits(['resetQuiz', 'checkAnswer', 'showSolution', 'nextQuestion', 'toggle
     <button
       class="mcq-footer__button"
       :class="{
-        'mcq-footer__button--correct': isSubmitted && isCorrect,
-        'mcq-footer__button--wrong': isSubmitted && !isCorrect,
+        'mcq-footer__button--correct': store.isSubmitted && store.isCorrect,
+        'mcq-footer__button--wrong': store.isSubmitted && !store.isCorrect,
       }"
-      @click="$emit('checkAnswer')"
-      :disabled="isSubmitted"
+      @click="store.checkAnswer"
+      :disabled="store.isSubmitted"
     >
-      {{ !isSubmitted ? 'Check' : isCorrect ? 'Correct' : 'Wrong' }}
+      {{ !store.isSubmitted ? 'Check' : store.isCorrect ? 'Correct' : 'Wrong' }}
     </button>
     <div class="mcq__controls">
       <button
-        v-if="isSubmitted && !isCorrect"
+        v-if="store.isSubmitted && !store.isCorrect"
         class="mcq-button mcq-button--smaller"
-        @click="$emit('showSolution')"
+        @click="store.showSolution"
         aria-label="show solution"
       >
         ?
       </button>
       <button
-        v-if="isSubmitted && questionIndex < questions.length - 1"
+        v-if="store.isSubmitted && store.questionIndex < store.questions.length - 1"
         class="mcq-button mcq-button--smaller"
-        @click="$emit('nextQuestion')"
+        @click="store.nextQuestion"
         aria-label="next question"
       >
         >>
       </button>
       <button
         class="mcq-button mcq-button--align-right"
-        @click="$emit('toggleSettings')"
+        @click="store.toggleSettings"
         aria-label="toggle settings"
       >
         !

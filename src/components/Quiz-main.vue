@@ -1,42 +1,27 @@
 <script setup>
-import { computed } from 'vue'
-
-const props = defineProps([
-  'settingsOn',
-  'selectedAnswer',
-  'isShowSolution',
-  'activeQuestion',
-  'isSubmitted',
-  'isCorrect',
-])
-defineEmits(['selectAnswer'])
-
-const questionText = computed(() => {
-  return props.activeQuestion?.question
-})
-
-const questionOptions = computed(() => {
-  return props.activeQuestion?.options
-})
+import { quizData } from '@/store/store'
+const store = quizData()
 </script>
 <template>
-  <div class="mcq-body" :class="{ 'mcq-hidden': settingsOn }">
-    <p class="mcq-question" v-html="questionText"></p>
+  <div class="mcq-body" :class="{ 'mcq-hidden': store.settingsOn }">
+    <p class="mcq-question" v-html="store.questionText"></p>
     <div class="mcq-options">
       <button
-        v-for="(option, index) in questionOptions"
+        v-for="(option, index) in store.questionOptions"
         :key="`option-${index}`"
-        :disabled="isSubmitted"
+        :disabled="store.isSubmitted"
         class="mcq-options__option"
         :class="{
-          'mcq-options__option--selected': index == selectedAnswer && !isSubmitted,
-          'mcq-options__option--correct': index == selectedAnswer && isSubmitted && isCorrect,
-          'mcq-options__option--wrong': index == selectedAnswer && isSubmitted && !isCorrect,
+          'mcq-options__option--selected': index == store.selectedAnswer && !store.isSubmitted,
+          'mcq-options__option--correct':
+            index == store.selectedAnswer && store.isSubmitted && store.isCorrect,
+          'mcq-options__option--wrong':
+            index == store.selectedAnswer && store.isSubmitted && !store.isCorrect,
           'mcq-options__option--showsolution':
-            isShowSolution && index == activeQuestion.correctIndex,
-          'mcq-options__option--disabled': isSubmitted,
+            store.isShowSolution && index == store.activeQuestion.correctIndex,
+          'mcq-options__option--disabled': store.isSubmitted,
         }"
-        @click="$emit('selectAnswer', index)"
+        @click="store.selectAnswer(index)"
       >
         <span v-html="option"></span>
         <div class="mcq-options__marker"></div>

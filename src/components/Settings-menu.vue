@@ -1,12 +1,6 @@
 <script setup>
-defineProps(['settingsData'])
-const emit = defineEmits(['updateSettings', 'resetQuiz', 'toggleSettings'])
-
-function updateValue(event) {
-  emit('updateSettings', {
-    [event.target.name]: event.target.value,
-  })
-}
+import { quizData } from '@/store/store'
+const store = quizData()
 </script>
 <template>
   <div class="mcq-settings">
@@ -24,8 +18,8 @@ function updateValue(event) {
           id="amount-select"
           min="3"
           max="10"
-          :value="settingsData.amount"
-          @change="updateValue"
+          :value="store.settingsData.amount"
+          @change="store.updateSettings"
         />
       </div>
       <div class="mcq-settings__container">
@@ -34,8 +28,8 @@ function updateValue(event) {
           class="mcq-settings__select"
           name="category"
           id="category-select"
-          :value="settingsData.category"
-          @change="updateValue"
+          :value="store.settingsData.category"
+          @change="store.updateSettings"
         >
           <option value="18">Computers</option>
           <option value="22">Geography</option>
@@ -50,8 +44,8 @@ function updateValue(event) {
           class="mcq-settings__select"
           name="difficulty"
           id="difficulty-select"
-          :value="settingsData.difficulty"
-          @change="updateValue"
+          :value="store.settingsData.difficulty"
+          @change="store.updateSettings"
         >
           <option value="">Any</option>
           <option value="easy">Easy</option>
@@ -63,14 +57,14 @@ function updateValue(event) {
     <div class="mcq-settings__footer">
       <button
         class="mcq-button mcq-button--reset mcq-button--align-right"
-        @click="$emit('resetQuiz')"
+        @click="store.resetQuiz"
         aria-label="reset quiz"
       >
         &#8634;
       </button>
       <button
         class="mcq-button mcq-button--align-right"
-        @click="$emit('toggleSettings')"
+        @click="store.toggleSettings"
         aria-label="toggle settings"
       >
         !
