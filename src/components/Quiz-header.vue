@@ -17,6 +17,10 @@ const store = quizData()
         }"
       ></div>
     </div>
+    <div class="mcq-image-preload">
+      <img aria-label="hidden" src="../check-mark.svg" alt="check mark icon" />
+      <img aria-label="hidden" src="../cross-mark.svg" alt="cross mark icon" />
+    </div>
   </div>
 </template>
 
@@ -59,6 +63,12 @@ const store = quizData()
     &.mcq-bullets__bullet--wrong {
       background: var(--color-fail) url('../cross-mark.svg') center / 60% no-repeat;
     }
+  }
+
+  .mcq-image-preload {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
   }
 }
 </style>
