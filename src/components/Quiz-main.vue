@@ -106,7 +106,7 @@ const store = quizData()
     box-shadow: 0 0 1px 1px var(--color-success);
 
     .mcq-options__marker {
-      background-image: url('../check-mark.svg');
+      background-image: url('/check-mark.svg');
       background-color: var(--color-success);
     }
   }
@@ -116,7 +116,7 @@ const store = quizData()
     box-shadow: 0 0 1px 1px var(--color-fail);
 
     .mcq-options__marker {
-      background-image: url('../cross-mark.svg');
+      background-image: url('/cross-mark.svg');
       background-color: var(--color-fail);
     }
   }
@@ -126,7 +126,7 @@ const store = quizData()
     box-shadow: 0 0 1px 1px var(--color-success);
 
     .mcq-options__marker {
-      background-image: url('../check-mark.svg');
+      background-image: url('/check-mark.svg');
       background-color: var(--color-success);
     }
   }
