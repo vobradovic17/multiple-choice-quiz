@@ -78,6 +78,7 @@ const store = quizData()
   position: absolute;
   width: calc(100% - 20px);
   height: calc(100% - 20px);
+  padding: 10px;
   background-color: var(--bg-color);
   display: flex;
   flex-direction: column;

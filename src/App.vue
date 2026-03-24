@@ -16,11 +16,13 @@ store.getQuizData()
 <template>
   <div class="mcq-component">
     <SettingsMenu v-if="store.settingsOn"></SettingsMenu>
-    <QuizHeader></QuizHeader>
-    <hr />
-    <QuizMain v-if="!store.isError"></QuizMain>
-    <QuizError v-else></QuizError>
-    <QuizFooter></QuizFooter>
+    <div class="mcq-component__inner">
+      <QuizHeader></QuizHeader>
+      <hr />
+      <QuizMain v-if="!store.isError"></QuizMain>
+      <QuizError v-else></QuizError>
+      <QuizFooter></QuizFooter>
+    </div>
   </div>
 </template>
 
@@ -37,10 +39,13 @@ store.getQuizData()
   position: relative;
   max-width: 776px;
   margin: auto;
-  padding: 10px;
   background-color: var(--bg-color);
   border: 1px solid var(--outer-border-color);
   border-radius: 4px 4px 8px 8px;
+
+  .mcq-component__inner {
+    padding: 10px;
+  }
 
   .mcq-button {
     cursor: pointer;
