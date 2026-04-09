@@ -1,14 +1,15 @@
 <script setup>
-import { quizData } from '@/store/store'
+import { quizData } from '../store/store'
 const store = quizData()
 </script>
 <template>
   <div class="mcq-body" :class="{ 'mcq-hidden': store.settingsOn }">
-    <p class="mcq-question" v-html="store.questionText"></p>
+    <p class="mcq-question" data-testid="mcq-question" v-html="store.questionText"></p>
     <div class="mcq-options">
       <button
         v-for="(option, index) in store.questionOptions"
         :key="`option-${index}`"
+        data-testid="mcq-option"
         :disabled="store.isSubmitted"
         class="mcq-options__option"
         :class="{

@@ -1,12 +1,13 @@
 <script setup>
-import { quizData } from '@/store/store'
+import { quizData } from '../store/store'
 const store = quizData()
 </script>
 <template>
-  <div class="mcq-footer" :class="{ 'mcq-hidden': store.settingsOn }">
+  <div class="mcq-footer" :class="{ 'mcq-hidden': store.settingsOn }" data-testid="mcq-footer">
     <button
       class="mcq-button mcq-button--reset mcq-button--align-right mcq-button--smaller"
       @click="store.resetQuiz"
+      data-testid="mcq-reset-button"
       aria-label="reset quiz"
     >
       &#8634;
@@ -18,6 +19,7 @@ const store = quizData()
         'mcq-footer__button--wrong': store.isSubmitted && !store.isCorrect,
       }"
       @click="store.checkAnswer"
+      data-testid="mcq-check-button"
       :disabled="store.isSubmitted"
     >
       {{ !store.isSubmitted ? 'Check' : store.isCorrect ? 'Correct' : 'Wrong' }}
@@ -27,6 +29,7 @@ const store = quizData()
         v-if="store.isSubmitted && !store.isCorrect"
         class="mcq-button mcq-button--smaller"
         @click="store.showSolution"
+        data-testid="mcq-solution-button"
         aria-label="show solution"
       >
         ?
@@ -35,6 +38,7 @@ const store = quizData()
         v-if="store.isSubmitted && store.questionIndex < store.questions.length - 1"
         class="mcq-button mcq-button--smaller"
         @click="store.nextQuestion"
+        data-testid="mcq-next-button"
         aria-label="next question"
       >
         >>
@@ -42,6 +46,7 @@ const store = quizData()
       <button
         class="mcq-button mcq-button--align-right"
         @click="store.toggleSettings"
+        data-testid="mcq-settings-button"
         aria-label="toggle settings"
       >
         !

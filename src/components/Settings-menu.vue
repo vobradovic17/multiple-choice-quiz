@@ -1,9 +1,9 @@
 <script setup>
-import { quizData } from '@/store/store'
+import { quizData } from '../store/store'
 const store = quizData()
 </script>
 <template>
-  <div class="mcq-settings">
+  <div class="mcq-settings" data-testid="mcq-settings">
     <div class="mcq-header">
       <p class="mcq-title">Settings</p>
     </div>
@@ -65,6 +65,7 @@ const store = quizData()
       <button
         class="mcq-button mcq-button--align-right"
         @click="store.toggleSettings"
+        data-testid="mcq-toggle-settings"
         aria-label="toggle settings"
       >
         !

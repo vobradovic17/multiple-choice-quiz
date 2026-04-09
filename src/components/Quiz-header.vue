@@ -1,14 +1,15 @@
 <script setup>
-import { quizData } from '@/store/store'
+import { quizData } from '../store/store'
 const store = quizData()
 </script>
 <template>
-  <div class="mcq-header">
+  <div class="mcq-header" data-testid="mcq-header">
     <p class="mcq-title">Multiple Choice Quiz</p>
     <div class="mcq-bullets">
       <div
         v-for="(question, index) in store.questions"
         :key="`question-${index}`"
+        data-testid="mcq-bullet"
         class="mcq-bullets__bullet"
         :class="{
           'mcq-bullets__bullet--active': index == store.questionIndex,
