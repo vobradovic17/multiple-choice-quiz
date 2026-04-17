@@ -4,7 +4,11 @@ const store = quizData()
 </script>
 <template>
   <div class="mcq-header" data-testid="mcq-header">
-    <p class="mcq-title">Multiple Choice Quiz</p>
+    <div class="mcq-header__inner">
+      <p class="mcq-title">Multiple Choice Quiz</p>
+      <p class="mcq-theme">Theme:
+        <span class="mcq-theme__text" :class="{'mcq-theme__text--fetching': store.fetching}"> {{ store.activeQuestion.theme }}</span></p>
+    </div>
     <div class="mcq-bullets">
       <div
         v-for="(question, index) in store.questions"
@@ -31,9 +35,42 @@ const store = quizData()
   justify-content: space-between;
   gap: 10px;
 
+  .mcq-header__inner > p {
+    margin: 0;
+  }
+
   .mcq-title {
     font-size: 1.5em;
     margin: 10px 0;
+  }
+
+  .mcq-theme__text--fetching {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    padding-bottom: 4px;
+    min-width: 188px;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 3px;
+      bottom: 0;
+    }
+
+    &::before {
+      background: rgba(0, 0, 0, 0.12);
+    }
+
+    &::after {
+      width: 25%;
+      background: linear-gradient(90deg, transparent 0%, var(--color-active) 45%, var(--color-active) 55%, transparent 100%);
+      animation: fetching-slide 1.1s ease-in-out infinite;
+      transform: translateX(-100%);
+    }
   }
 
   .mcq-bullets {
@@ -70,6 +107,15 @@ const store = quizData()
     position: absolute;
     z-index: -1;
     opacity: 0;
+  }
+}
+
+@keyframes fetching-slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(400%);
   }
 }
 </style>

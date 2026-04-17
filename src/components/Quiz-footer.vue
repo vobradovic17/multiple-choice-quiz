@@ -3,12 +3,14 @@ import { quizData } from '../store/store'
 const store = quizData()
 </script>
 <template>
-  <div class="mcq-footer" :class="{ 'mcq-hidden': store.settingsOn }" data-testid="mcq-footer">
+  <div class="mcq-footer" :class="{ 'mcq-body--hidden': store.settingsOn }" data-testid="mcq-footer">
     <button
       class="mcq-button mcq-button--reset mcq-button--align-right mcq-button--smaller"
+      :class="{'mcq-button--disabled': store.fetching}"
       @click="store.resetQuiz"
       data-testid="mcq-reset-button"
       aria-label="reset quiz"
+      :disabled="store.fetching"
     >
       &#8634;
     </button>
@@ -17,10 +19,11 @@ const store = quizData()
       :class="{
         'mcq-footer__button--correct': store.isSubmitted && store.isCorrect,
         'mcq-footer__button--wrong': store.isSubmitted && !store.isCorrect,
+        'mcq-button--disabled': store.fetching
       }"
       @click="store.checkAnswer"
       data-testid="mcq-check-button"
-      :disabled="store.isSubmitted"
+      :disabled="store.isSubmitted || store.fetching"
     >
       {{ !store.isSubmitted ? 'Check' : store.isCorrect ? 'Correct' : 'Wrong' }}
     </button>
@@ -45,9 +48,11 @@ const store = quizData()
       </button>
       <button
         class="mcq-button mcq-button--align-right"
+        :class="{'mcq-button--disabled': store.fetching}"
         @click="store.toggleSettings"
         data-testid="mcq-settings-button"
         aria-label="toggle settings"
+        :disabled="store.fetching"
       >
         !
       </button>
@@ -100,6 +105,11 @@ const store = quizData()
       box-shadow: 0 0 1px 1px var(--color-fail);
       cursor: auto;
     }
+  }
+
+  .mcq-button--disabled {
+    cursor: auto;
+    pointer-events: none;
   }
 
   @media (max-width: 480px) {

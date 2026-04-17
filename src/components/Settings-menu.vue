@@ -1,6 +1,27 @@
 <script setup>
+import { onBeforeUnmount } from 'vue'
 import { quizData } from '../store/store'
 const store = quizData()
+
+// set values on component create. checked onBeforeUnmount to see if resetQuiz needs to be trigerred
+const quizType = store.apiParams.type
+const quizQuestions = store.apiParams.questionstotal
+
+// set variable so if reset button is clicked resetQuiz method will not be called in onBeforeUnmount hook
+let manualReset = false;
+
+function reset() {
+  manualReset = true;
+  store.resetQuiz();
+}
+
+// if settings change reset quiz before returning to quiz
+onBeforeUnmount(() => {
+  if (!manualReset && (quizType != store.apiParams.type || quizQuestions != store.apiParams.questionstotal)) {
+    store.resetQuiz();
+  }
+
+})
 </script>
 <template>
   <div class="mcq-settings" data-testid="mcq-settings">
@@ -10,54 +31,36 @@ const store = quizData()
     <hr />
     <div class="mcq-settings__wrapper">
       <div class="mcq-settings__container">
-        <label class="mcq-settings__label" for="amount-select">Number of questions:</label>
+        <label class="mcq-settings__label" for="type-select">Quiz type:</label>
+        <select
+          class="mcq-settings__select"
+          name="type"
+          id="type-select"
+          :value="store.apiParams.type"
+          @change="store.updateSettings"
+        >
+          <option value="history">History</option>
+          <option value="geography">Geography</option>
+        </select>
+      </div>
+      <div class="mcq-settings__container">
+        <label class="mcq-settings__label" for="questionstotal-select">Number of questions:</label>
         <input
           class="mcq-settings__input"
           type="number"
-          name="amount"
-          id="amount-select"
+          name="questionstotal"
+          id="questionstotal-select"
           min="3"
           max="10"
-          :value="store.settingsData.amount"
+          :value="store.apiParams.questionstotal"
           @change="store.updateSettings"
         />
-      </div>
-      <div class="mcq-settings__container">
-        <label class="mcq-settings__label" for="category-select">Choose category:</label>
-        <select
-          class="mcq-settings__select"
-          name="category"
-          id="category-select"
-          :value="store.settingsData.category"
-          @change="store.updateSettings"
-        >
-          <option value="18">Computers</option>
-          <option value="22">Geography</option>
-          <option value="23">History</option>
-          <option value="25">Art</option>
-          <option value="21">Sports</option>
-        </select>
-      </div>
-      <div class="mcq-settings__container">
-        <label class="mcq-settings__label" for="difficulty-select">Choose difficulty:</label>
-        <select
-          class="mcq-settings__select"
-          name="difficulty"
-          id="difficulty-select"
-          :value="store.settingsData.difficulty"
-          @change="store.updateSettings"
-        >
-          <option value="">Any</option>
-          <option value="easy">Easy</option>
-          <option value="medium">Medium</option>
-          <option value="hard">Hard</option>
-        </select>
       </div>
     </div>
     <div class="mcq-settings__footer">
       <button
         class="mcq-button mcq-button--reset mcq-button--align-right"
-        @click="store.resetQuiz"
+        @click="reset"
         aria-label="reset quiz"
       >
         &#8634;
@@ -92,11 +95,13 @@ const store = quizData()
   .mcq-settings__wrapper {
     display: flex;
     justify-content: space-between;
-    gap: 48px;
+    flex-direction: column;
+    gap: 12px;
   }
 
   .mcq-settings__container {
-    flex-basis: 100%;
+    display: flex;
+    flex-direction: column;
 
     label {
       display: block;
@@ -108,7 +113,6 @@ const store = quizData()
   }
 
   .mcq-settings__input {
-    width: 100%;
     height: 32px;
     font-size: 1em;
     padding: 0px 10px;

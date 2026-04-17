@@ -4,12 +4,14 @@ import { quizData } from './store/store'
 const store = quizData()
 
 import SettingsMenu from './components/Settings-menu.vue'
+import QuizSolution from './components/Quiz-solution.vue'
 import QuizHeader from './components/Quiz-header.vue'
 import QuizMain from './components/Quiz-main.vue'
 import QuizFooter from './components/Quiz-footer.vue'
 import QuizError from './components/Quiz-error.vue'
 
 // send network request for quiz data
+store.questions = Array(store.apiParams.questionstotal).fill([])
 store.getQuizData()
 </script>
 
@@ -23,6 +25,7 @@ store.getQuizData()
       <QuizError v-else></QuizError>
       <QuizFooter></QuizFooter>
     </div>
+    <QuizSolution v-if="store.isCorrect || store.isShowSolution"></QuizSolution>
   </div>
 </template>
 
@@ -79,7 +82,7 @@ store.getQuizData()
     font-size: 16px;
   }
 
-  .mcq-hidden {
+  .mcq-body--hidden {
     visibility: hidden;
   }
 }

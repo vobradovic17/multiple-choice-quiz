@@ -3,7 +3,7 @@ import { quizData } from '../store/store'
 const store = quizData()
 </script>
 <template>
-  <div class="mcq-body" :class="{ 'mcq-hidden': store.settingsOn }">
+  <div class="mcq-body" :class="{ 'mcq-body--fetching': store.fetching, 'mcq-body--hidden': store.settingsOn }">
     <p class="mcq-question" data-testid="mcq-question" v-html="store.questionText"></p>
     <div class="mcq-options">
       <button
@@ -24,7 +24,7 @@ const store = quizData()
         }"
         @click="store.selectAnswer(index)"
       >
-        <span v-html="option"></span>
+        <span v-html="option.answer"></span>
         <div class="mcq-options__marker"></div>
       </button>
     </div>
@@ -39,6 +39,44 @@ const store = quizData()
   gap: 10px;
   margin-bottom: 15px;
   min-height: 158px;
+
+  &.mcq-body--fetching {
+    position: relative;
+    pointer-events: none;
+
+    &::before {
+      content: 'Generating question...';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      margin-bottom: 32px;
+      color: #555;
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      width: 48px;
+      height: 48px;
+      margin: 0 0 0 -24px;
+      border: 4px solid rgba(0, 0, 0, 0.08);
+      border-top-color: var(--color-active);
+      border-radius: 50%;
+      animation: fetching-spinner 0.9s linear infinite;
+    }
+
+    * {
+      visibility: hidden;
+    }
+  }
 
   .mcq-question {
     grid-column: 1 / 2;
@@ -147,6 +185,15 @@ const store = quizData()
     background-position: center;
     background-size: 60%;
     background-repeat: no-repeat;
+  }
+}
+
+@keyframes fetching-spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 </style>
