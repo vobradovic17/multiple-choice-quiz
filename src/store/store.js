@@ -89,35 +89,33 @@ export const quizData = defineStore('data', {
           }
         })
         .then((result) => {
-
           let newQuestion = result.results.map((item) => {
-          // create new array by shuffling correct and incorrect answers
-          const options = shuffle(item.answers)
+            // create new array by shuffling correct and incorrect answers
+            const options = shuffle(item.answers)
+            // find index of correct answer and store it in a constant
+            const correctIndex = options.findIndex((answer) => {
+              return answer.correct
+            })
 
-          // find index of correct answer and store it in a constant
-          const correctIndex = options.findIndex((answer) => {
-            return answer.correct
+            return {
+              subject: item.subject,
+              theme: item.theme,
+              question: item.question,
+              options: options,
+              correctIndex: correctIndex,
+              solution: item.solution,
+              isAnswered: false,
+              isCorrect: false,
+            }
           })
+          this.questions.splice(this.questionIndex, 1, newQuestion[0])
 
-          return {
-            subject: item.subject,
-            theme: item.theme,
-            question: item.question,
-            options: options,
-            correctIndex: correctIndex,
-            solution: item.solution,
-            isAnswered: false,
-            isCorrect: false,
-          }
-        }).catch(() => {
+          this.fetching = false
+        })
+        .catch(() => {
           // display error
           this.isError = true
         })
-
-      this.questions.splice(this.questionIndex, 1, newQuestion[0])
-
-      this.fetching = false;
-      })
     },
   },
 })
