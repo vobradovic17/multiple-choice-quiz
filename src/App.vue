@@ -86,4 +86,9 @@ store.getQuizData()
     visibility: hidden;
   }
 }
+
+.mcq-explanation {
+  max-width: 776px;
+  margin: 1rem auto 0;
+}
 </style>

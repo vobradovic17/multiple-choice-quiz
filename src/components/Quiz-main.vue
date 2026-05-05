@@ -177,7 +177,7 @@ const store = quizData()
 
   .mcq-options__marker {
     position: absolute;
-    top: -20%;
+    top: -8px;
     right: -2%;
     width: 24px;
     height: 24px;
@@ -185,6 +185,13 @@ const store = quizData()
     background-position: center;
     background-size: 60%;
     background-repeat: no-repeat;
+  }
+
+  @media (max-width: 390px) {
+    .mcq-options__marker {
+      width: 18px;
+      height: 18px;
+    }
   }
 }
 

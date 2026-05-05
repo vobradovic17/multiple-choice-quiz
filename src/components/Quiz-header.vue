@@ -49,7 +49,7 @@ const store = quizData()
     display: inline-block;
     overflow: hidden;
     padding-bottom: 4px;
-    min-width: 188px;
+    min-width: 100%;
 
     &::before,
     &::after {
@@ -107,6 +107,20 @@ const store = quizData()
     position: absolute;
     z-index: -1;
     opacity: 0;
+  }
+
+  @media (max-width: 390px) {
+    .mcq-bullets__bullet {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .mcq-bullets__bullet {
+      width: 12px;
+      height: 12px;
+    }
   }
 }
 

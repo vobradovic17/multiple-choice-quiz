@@ -115,6 +115,13 @@ const store = quizData()
   @media (max-width: 480px) {
     .mcq-footer__button {
       font-size: 0.88em;
+      padding: 8px 4px;
+    }
+  }
+
+  @media (max-width: 390px) {
+    .mcq-footer__button {
+      font-size: 0.74em;
     }
   }
 }
