@@ -115,6 +115,7 @@ export const quizData = defineStore('data', {
         .catch(() => {
           // display error
           this.isError = true
+          this.fetching = false
         })
     },
   },
