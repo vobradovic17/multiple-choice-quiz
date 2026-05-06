@@ -1,7 +1,6 @@
 import { beforeAll, describe, expect, test } from 'vitest'
-import { userEvent } from 'vitest/browser'
+import { userEvent, page } from 'vitest/browser'
 import { render } from 'vitest-browser-vue'
-import { page } from 'vitest/browser'
 import { screen } from '@testing-library/dom'
 
 import MultipleChoiceQuiz from '../App.vue'
@@ -134,7 +133,7 @@ describe('Multiple Choice Quiz', () => {
   test('Answer is selected', async () => {
     await render(MultipleChoiceQuiz);
 
-    let correctOptionButton = await page.getByRole('button').filter({ has: page.getByText('Albany') })
+    let correctOptionButton = await page.getByRole('button').filter({ has: page.getByText('Dictator') })
 
     await userEvent.click(correctOptionButton)
 
@@ -153,7 +152,7 @@ describe('Multiple Choice Quiz', () => {
 
     await userEvent.click(resetButton)
 
-    let correctOptionButton = await page.getByRole('button').filter({ has: page.getByText('Albany') })
+    let correctOptionButton = await page.getByRole('button').filter({ has: page.getByText('Dictator') })
 
     await expect.element(correctOptionButton).not.toHaveClass('mcq-options__option--selected')
   })
@@ -161,7 +160,7 @@ describe('Multiple Choice Quiz', () => {
   test('Correct answer is submitted', async () => {
     await render(MultipleChoiceQuiz);
 
-    let correctOptionButton = await page.getByRole('button').filter({ has: page.getByText('Albany') })
+    let correctOptionButton = await page.getByRole('button').filter({ has: page.getByText('Dictator') })
 
     await userEvent.click(correctOptionButton)
 
@@ -198,13 +197,13 @@ describe('Multiple Choice Quiz', () => {
 
     let questionText = await screen.findByTestId("mcq-question");
 
-    expect(questionText).toHaveTextContent('In which English county is the city of Portsmouth?')
+    expect(questionText).toHaveTextContent('Which famous church did Justinian commission in Constantinople?')
   })
 
   test('Wrong answer is selected and submitted', async () => {
     await render(MultipleChoiceQuiz);
 
-    let wrongOptionButton = await page.getByRole('button').filter({ has: page.getByText('Buckinghamshire') })
+    let wrongOptionButton = await page.getByRole('button').filter({ has: page.getByText("St. Peter's Basilica") })
 
     await userEvent.click(wrongOptionButton)
 
@@ -230,7 +229,7 @@ describe('Multiple Choice Quiz', () => {
 
     await userEvent.click(showSolutionButton)
 
-    let solutionOption = await page.getByRole('button').filter({ has: page.getByText('Hampshire') })
+    let solutionOption = await page.getByRole('button').filter({ has: page.getByText('Hagia Sophia') })
 
     await expect.element(solutionOption).toHaveClass('mcq-options__option--showsolution')
 
