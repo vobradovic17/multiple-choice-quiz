@@ -29,12 +29,20 @@ describe('Multiple Choice Quiz', () => {
     await expect.element(headerElement).toBeInTheDocument()
   })
 
-    test('Header title is displayed', async () => {
-      await render(MultipleChoiceQuiz)
+  test('Header title is displayed', async () => {
+    await render(MultipleChoiceQuiz)
       
-      let headerTitle = await screen.findByText('Multiple Choice Quiz')
+    let headerTitle = await screen.findByText('Multiple Choice Quiz')
 
-      await expect.element(headerTitle).toBeInTheDocument()
+    await expect.element(headerTitle).toBeInTheDocument()
+  })
+
+  test('Theme is displayed', async () => {
+    await render(MultipleChoiceQuiz)
+      
+    let headerTitle = await screen.findByText('Ancient Rome')
+
+    await expect.element(headerTitle).toBeInTheDocument()
   })
 
   test('Question bullets are displayed in component header', async () => {
@@ -177,6 +185,14 @@ describe('Multiple Choice Quiz', () => {
       'box-shadow': '0 0 1px 1px #51861a',
       'border': '1px solid #51861a'
     })
+  })
+
+  test('Solution is displayed with the long answer to the question', async () => {
+    await render(MultipleChoiceQuiz);
+
+    let solution = await screen.getByTestId('mcq-solution')
+
+    await expect.element(solution).toBeInTheDocument();
   })
 
   test('Next button is displayed', async () => {
