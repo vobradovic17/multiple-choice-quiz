@@ -40,9 +40,9 @@ describe('Multiple Choice Quiz', () => {
   test('Theme is displayed', async () => {
     await render(MultipleChoiceQuiz)
       
-    let headerTitle = await screen.findByText('Ancient Rome')
+    let themeText = await screen.findByText('Ancient Rome')
 
-    await expect.element(headerTitle).toBeInTheDocument()
+    await expect.element(themeText).toBeInTheDocument()
   })
 
   test('Question bullets are displayed in component header', async () => {
