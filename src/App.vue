@@ -11,7 +11,8 @@ import QuizFooter from './components/Quiz-footer.vue'
 import QuizError from './components/Quiz-error.vue'
 
 // send network request for quiz data
-store.questions = Array(store.apiParams.questionstotal).fill([])
+store.loadSettings();
+store.questions = Array(Number(store.apiParams.questionstotal)).fill([])
 store.getQuizData()
 </script>
 
