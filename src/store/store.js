@@ -49,7 +49,13 @@ export const quizData = defineStore('data', {
       }
     },
     saveSettings() {
-      localStorage.setItem('mcqSettings', JSON.stringify(this.apiParams))
+      localStorage.setItem(
+        'mcqSettings',
+        JSON.stringify({
+          type: this.apiParams.type,
+          questionstotal: this.apiParams.questionstotal,
+        })
+      )
     },
     selectAnswer(index) {
       this.selectedAnswer = index
