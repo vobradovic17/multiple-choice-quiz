@@ -96,10 +96,12 @@ const store = quizData()
 
     &.mcq-bullets__bullet--correct {
       background: var(--color-success) url('/check-mark.svg') center / 60% no-repeat;
+      animation: marker-appear 0.5s ease-out forwards;
     }
 
     &.mcq-bullets__bullet--wrong {
       background: var(--color-fail) url('/cross-mark.svg') center / 60% no-repeat;
+      animation: marker-appear 0.5s ease-out forwards;
     }
   }
 

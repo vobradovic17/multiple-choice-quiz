@@ -7,6 +7,7 @@ export const quizData = defineStore('data', {
     questionIndex: 0,
     selectedAnswer: null,
     isShowSolution: false,
+    solutionClosed: false,
     isError: false,
     settingsOn: false,
     fetching: false,
@@ -32,10 +33,36 @@ export const quizData = defineStore('data', {
     questionOptions: (state) => {
       return state.activeQuestion?.options
     },
+    solutionShown: (state) => {
+      return state.isCorrect || state.isShowSolution
+    }
   },
   actions: {
-    toggleSettings() {
-      this.settingsOn = !this.settingsOn
+    openSettings() {
+      // if solution is not shown open settings
+      if (!this.solutionShown) {
+        this.settingsOn = true;
+        return;
+      }
+      
+      // if solution is shown close solution before opening settings
+      this.solutionClosed = true;
+      setTimeout(() => {
+        this.settingsOn = true;
+      }, 500)
+    },
+    closeSettings() {
+      // if solution is not shown close settings
+      if (!this.solutionShown) {
+        this.settingsOn = false;
+        return;
+      }
+      
+      // if solution is shown open solution after closing settings
+      this.settingsOn = false;
+      setTimeout(() => {
+        this.solutionClosed = false;
+      }, 300)   
     },
     updateSettings(event) {
       this.apiParams[event.target.name] = event.target.value
@@ -69,11 +96,12 @@ export const quizData = defineStore('data', {
     showSolution() {
       this.isShowSolution = true
     },
-    nextQuestion() {
+    nextQuestion() { 
       this.selectedAnswer = null
       this.questionIndex++
       this.apiParams.question = Number(this.apiParams.question) + 1;
       this.isShowSolution = false
+      this.solutionClosed = false;
       this.getQuizData();
     },
     resetQuiz() {
@@ -88,6 +116,7 @@ export const quizData = defineStore('data', {
       this.apiParams.question = 1;
       this.selectedAnswer = null
       this.isShowSolution = false
+      this.solutionClosed = false
       this.isError = false;
 
       // send network request for quiz data

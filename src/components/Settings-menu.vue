@@ -1,27 +1,24 @@
 <script setup>
-import { onBeforeUnmount } from 'vue'
+import { ref, computed } from 'vue'
 import { quizData } from '../store/store'
 const store = quizData()
 
-// set values on component create. checked onBeforeUnmount to see if resetQuiz needs to be trigerred
-const quizType = store.apiParams.type
-const quizQuestions = store.apiParams.questionstotal
+// set values on component create. checked later to see if resetQuiz needs to be trigerred.
+const quizType = ref(store.apiParams.type)
+const quizQuestions = ref(store.apiParams.questionstotal)
 
-// set variable so if reset button is clicked resetQuiz method will not be called in onBeforeUnmount hook
-let manualReset = false;
+const settingsChanged = computed(() => {
+  return quizType.value != store.apiParams.type || quizQuestions.value != store.apiParams.questionstotal
+})
 
-function reset() {
-  manualReset = true;
-  store.resetQuiz();
-}
-
-// if settings change reset quiz before returning to quiz
-onBeforeUnmount(() => {
-  if (!manualReset && (quizType != store.apiParams.type || quizQuestions != store.apiParams.questionstotal)) {
+function closeSettings() {
+  if (settingsChanged.value) {
     store.resetQuiz();
   }
-
-})
+  else {
+    store.closeSettings()
+  }
+}
 </script>
 <template>
   <div class="mcq-settings" data-testid="mcq-settings">
@@ -60,14 +57,14 @@ onBeforeUnmount(() => {
     <div class="mcq-settings__footer">
       <button
         class="mcq-button mcq-button--reset mcq-button--align-right"
-        @click="reset"
+        @click="store.resetQuiz"
         aria-label="reset quiz"
       >
         &#8634;
       </button>
       <button
         class="mcq-button mcq-button--align-right"
-        @click="store.toggleSettings"
+        @click="closeSettings"
         data-testid="mcq-toggle-settings"
         aria-label="toggle settings"
       >
@@ -83,6 +80,9 @@ onBeforeUnmount(() => {
   width: calc(100% - 20px);
   height: calc(100% - 20px);
   padding: 10px;
+  outline: 1px solid var(--outer-border-color);
+  outline-offset: -1px;
+  border-radius: 4px 4px 8px 8px;
   background-color: var(--bg-color);
   display: flex;
   flex-direction: column;

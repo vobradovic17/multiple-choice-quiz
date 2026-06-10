@@ -17,7 +17,7 @@ store.getQuizData()
 </script>
 
 <template>
-  <div class="mcq-component">
+  <div class="mcq-component" :class="{'mcq-component--show-solution' : store.solutionShown && !store.solutionClosed}">
     <SettingsMenu v-if="store.settingsOn"></SettingsMenu>
     <div class="mcq-component__inner">
       <QuizHeader></QuizHeader>
@@ -26,7 +26,7 @@ store.getQuizData()
       <QuizError v-else></QuizError>
       <QuizFooter></QuizFooter>
     </div>
-    <QuizSolution v-if="store.isCorrect || store.isShowSolution"></QuizSolution>
+    <QuizSolution></QuizSolution>
   </div>
 </template>
 
@@ -43,12 +43,23 @@ store.getQuizData()
   position: relative;
   max-width: 776px;
   margin: auto;
-  background-color: var(--bg-color);
-  border: 1px solid var(--outer-border-color);
-  border-radius: 4px 4px 8px 8px;
 
   .mcq-component__inner {
     padding: 10px;
+    border: 1px solid var(--outer-border-color);
+    background-color: var(--bg-color);
+    border-radius: 4px 4px 8px 8px;
+  }
+
+  &.mcq-component--show-solution {
+    .mcq-component__inner {
+      border-radius: 4px 4px 0 0;
+    }
+    .mcq-solution {
+      position: relative;
+      transform: translateY(0);
+      transition: transform 0.5s;
+    }
   }
 
   .mcq-button {
@@ -86,10 +97,31 @@ store.getQuizData()
   .mcq-body--hidden {
     visibility: hidden;
   }
+
+  @keyframes marker-appear {
+    0% {
+      opacity: 0;
+      transform: scale(0.75);
+    }
+    50% {
+      opacity: 1;
+    }
+    75% {
+      transform: scale(1.1);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
 }
 
 .mcq-explanation {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
   max-width: 776px;
-  margin: 1rem auto 0;
+  width: 100%;
 }
 </style>

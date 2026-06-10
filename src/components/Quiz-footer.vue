@@ -1,13 +1,39 @@
 <script setup>
 import { quizData } from '../store/store'
 const store = quizData()
+
+function next() {
+  // close solution before moving to next question
+  if (store.solutionShown) {
+    store.solutionClosed = true;
+    setTimeout(() => {
+      store.nextQuestion()
+    }, 500)
+  }
+  else {
+    store.nextQuestion()
+  }
+}
+
+function reset() {
+  // close solution before triggering resetQuiz
+  if (store.solutionShown) {
+    store.solutionClosed = true;
+    setTimeout(() => {
+      store.resetQuiz()
+    }, 500)
+  }
+  else {
+    store.resetQuiz()
+  }
+}
 </script>
 <template>
   <div class="mcq-footer" :class="{ 'mcq-body--hidden': store.settingsOn }" data-testid="mcq-footer">
     <button
       class="mcq-button mcq-button--reset mcq-button--align-right mcq-button--smaller"
       :class="{'mcq-button--disabled': store.fetching}"
-      @click="store.resetQuiz"
+      @click="reset"
       data-testid="mcq-reset-button"
       aria-label="reset quiz"
       :disabled="store.fetching"
@@ -40,7 +66,7 @@ const store = quizData()
       <button
         v-if="store.isSubmitted && store.questionIndex < store.questions.length - 1"
         class="mcq-button mcq-button--smaller"
-        @click="store.nextQuestion"
+        @click="next"
         data-testid="mcq-next-button"
         aria-label="next question"
       >
@@ -49,7 +75,7 @@ const store = quizData()
       <button
         class="mcq-button mcq-button--align-right"
         :class="{'mcq-button--disabled': store.fetching}"
-        @click="store.toggleSettings"
+        @click="store.openSettings"
         data-testid="mcq-settings-button"
         aria-label="toggle settings"
         :disabled="store.fetching"

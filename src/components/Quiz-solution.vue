@@ -10,13 +10,21 @@ const store = quizData()
 
 <style lang="scss">
 .mcq-solution {
+    position: absolute;
+    z-index: -1;
+    transform: translateY(-100%);
+    transition: transform 0.3s;
+    background-color: var(--bg-color);
+    border: 1px solid var(--outer-border-color);
+    border-top: 0;
+    border-radius: 0 0 8px 8px;
+
     .mcq-solution__text {
-        border-top: 1px solid var(--outer-border-color);
-        margin: 0;
-        padding: 10px;
-        font-size: 18px;
-        line-height: 1.2;
-        text-align: justify;
+      margin: 0;
+      padding: 10px;
+      font-size: 18px;
+      line-height: 1.2;
+      text-align: justify;
     }
 }
 </style>

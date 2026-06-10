@@ -147,6 +147,7 @@ const store = quizData()
     .mcq-options__marker {
       background-image: url('/check-mark.svg');
       background-color: var(--color-success);
+      animation: marker-appear 0.5s ease-out forwards;
     }
   }
 
@@ -157,6 +158,7 @@ const store = quizData()
     .mcq-options__marker {
       background-image: url('/cross-mark.svg');
       background-color: var(--color-fail);
+      animation: marker-appear 0.5s ease-out forwards;
     }
   }
 
@@ -167,6 +169,7 @@ const store = quizData()
     .mcq-options__marker {
       background-image: url('/check-mark.svg');
       background-color: var(--color-success);
+      animation: marker-appear 0.5s ease-out forwards;
     }
   }
 
@@ -185,6 +188,8 @@ const store = quizData()
     background-position: center;
     background-size: 60%;
     background-repeat: no-repeat;
+    opacity: 0;
+    transform: scale(0.75);
   }
 
   @media (max-width: 390px) {
