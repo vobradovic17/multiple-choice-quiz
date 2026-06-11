@@ -122,6 +122,8 @@ store.getQuizData()
   left: 50%;
   transform: translateX(-50%);
   max-width: 776px;
-  width: 100%;
+  width: calc(100% - 16px);
+  text-align: center;
+  z-index: -2;
 }
 </style>
