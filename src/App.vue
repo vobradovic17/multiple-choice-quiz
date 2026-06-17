@@ -17,20 +17,27 @@ store.getQuizData()
 </script>
 
 <template>
-  <div class="mcq-component" :class="{'mcq-component--show-solution' : store.solutionShown && !store.solutionClosed}">
-    <SettingsMenu v-if="store.settingsOn"></SettingsMenu>
-    <div class="mcq-component__inner">
-      <QuizHeader></QuizHeader>
-      <hr />
-      <QuizMain v-if="!store.isError"></QuizMain>
-      <QuizError v-else></QuizError>
-      <QuizFooter></QuizFooter>
+  <div class="mcq-component__wrapper">
+    <div class="mcq-component" :class="{'mcq-component--show-solution' : store.solutionShown && !store.solutionClosed}">
+      <SettingsMenu v-if="store.settingsOn"></SettingsMenu>
+      <div class="mcq-component__inner">
+        <QuizHeader></QuizHeader>
+        <hr />
+        <QuizMain v-if="!store.isError"></QuizMain>
+        <QuizError v-else></QuizError>
+        <QuizFooter></QuizFooter>
+      </div>
+      <QuizSolution></QuizSolution>
     </div>
-    <QuizSolution></QuizSolution>
   </div>
 </template>
 
 <style lang="scss">
+.mcq-component__wrapper {
+  min-height: calc(100vh - 16px);
+  clip-path: polygon(0 0px, 100% 0px, 100% 100%, 0 100%);
+}
+
 .mcq-component {
   --bg-color: #eaeaea;
   --button-bg: #d6dceb;
