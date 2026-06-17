@@ -4,7 +4,7 @@ const store = quizData()
 </script>
 <template>
   <div class="mcq-solution" data-testid="mcq-solution">
-    <p class="mcq-solution__text" v-html="store.activeQuestion.solution"></p>
+    <p class="mcq-solution__text" :aria-hidden="store.solutionShown && !store.solutionClosed ? false : true" v-html="store.activeQuestion.solution"></p>
   </div>
 </template>
 
