@@ -1,6 +1,16 @@
 <script setup>
 import { quizData } from '../store/store'
+import { storeToRefs } from 'pinia'
 const store = quizData()
+
+const {
+  settingsOn,
+  fetching,
+  isSubmitted, 
+  isCorrect, 
+  questionIndex, 
+  questions 
+} = storeToRefs(store)
 
 function next() {
   // close solution before moving to next question
@@ -29,33 +39,33 @@ function reset() {
 }
 </script>
 <template>
-  <div class="mcq-footer" :class="{ 'mcq-body--hidden': store.settingsOn }" data-testid="mcq-footer">
+  <div class="mcq-footer" :class="{ 'mcq-body--hidden': settingsOn }" data-testid="mcq-footer">
     <button
       class="mcq-button mcq-button--reset mcq-button--align-right mcq-button--smaller"
-      :class="{'mcq-button--disabled': store.fetching}"
+      :class="{'mcq-button--disabled': fetching}"
       @click="reset"
       data-testid="mcq-reset-button"
       aria-label="reset quiz"
-      :disabled="store.fetching"
+      :disabled="fetching"
     >
       &#8634;
     </button>
     <button
       class="mcq-footer__button"
       :class="{
-        'mcq-footer__button--correct': store.isSubmitted && store.isCorrect,
-        'mcq-footer__button--wrong': store.isSubmitted && !store.isCorrect,
-        'mcq-button--disabled': store.fetching
+        'mcq-footer__button--correct': isSubmitted && isCorrect,
+        'mcq-footer__button--wrong': isSubmitted && !isCorrect,
+        'mcq-button--disabled': fetching
       }"
       @click="store.checkAnswer"
       data-testid="mcq-check-button"
-      :disabled="store.isSubmitted || store.fetching"
+      :disabled="isSubmitted || fetching"
     >
-      {{ !store.isSubmitted ? 'Check' : store.isCorrect ? 'Correct' : 'Wrong' }}
+      {{ !isSubmitted ? 'Check' : isCorrect ? 'Correct' : 'Wrong' }}
     </button>
     <div class="mcq__controls">
       <button
-        v-if="store.isSubmitted && !store.isCorrect"
+        v-if="isSubmitted && !isCorrect"
         class="mcq-button mcq-button--smaller"
         @click="store.showSolution"
         data-testid="mcq-solution-button"
@@ -64,7 +74,7 @@ function reset() {
         ?
       </button>
       <button
-        v-if="store.isSubmitted && store.questionIndex < store.questions.length - 1"
+        v-if="isSubmitted && questionIndex < questions.length - 1"
         class="mcq-button mcq-button--smaller"
         @click="next"
         data-testid="mcq-next-button"
@@ -74,11 +84,11 @@ function reset() {
       </button>
       <button
         class="mcq-button mcq-button--align-right"
-        :class="{'mcq-button--disabled': store.fetching}"
+        :class="{'mcq-button--disabled': fetching}"
         @click="store.openSettings"
         data-testid="mcq-settings-button"
         aria-label="toggle settings"
-        :disabled="store.fetching"
+        :disabled="fetching"
       >
         !
       </button>

@@ -1,7 +1,10 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { quizData } from '../store/store'
+import { storeToRefs } from 'pinia'
 const store = quizData()
+
+const { apiParams } = storeToRefs(store)
 
 // set values on component create. checked later to see if resetQuiz needs to be trigerred.
 const quizType = ref(store.apiParams.type)
@@ -33,7 +36,7 @@ function closeSettings() {
           class="mcq-settings__select"
           name="type"
           id="type-select"
-          :value="store.apiParams.type"
+          :value="apiParams.type"
           @change="store.updateSettings"
         >
           <option value="history">History</option>
@@ -49,7 +52,7 @@ function closeSettings() {
           id="questionstotal-select"
           min="3"
           max="10"
-          :value="store.apiParams.questionstotal"
+          :value="apiParams.questionstotal"
           @change="store.updateSettings"
         />
       </div>

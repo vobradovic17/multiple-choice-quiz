@@ -1,7 +1,6 @@
 <script setup>
 import { quizData } from './store/store'
-
-const store = quizData()
+import { storeToRefs } from 'pinia'
 
 import SettingsMenu from './components/Settings-menu.vue'
 import QuizSolution from './components/Quiz-solution.vue'
@@ -9,6 +8,9 @@ import QuizHeader from './components/Quiz-header.vue'
 import QuizMain from './components/Quiz-main.vue'
 import QuizFooter from './components/Quiz-footer.vue'
 import QuizError from './components/Quiz-error.vue'
+
+const store = quizData()
+const { solutionShown, solutionClosed, settingsOn, isError } = storeToRefs(store)
 
 // send network request for quiz data
 store.loadSettings();
@@ -18,12 +20,12 @@ store.getQuizData()
 
 <template>
   <div class="mcq-component__wrapper">
-    <div class="mcq-component" :class="{'mcq-component--show-solution' : store.solutionShown && !store.solutionClosed}">
-      <SettingsMenu v-if="store.settingsOn"></SettingsMenu>
+    <div class="mcq-component" :class="{'mcq-component--show-solution' : solutionShown && !solutionClosed}">
+      <SettingsMenu v-if="settingsOn"></SettingsMenu>
       <div class="mcq-component__inner">
         <QuizHeader></QuizHeader>
         <hr />
-        <QuizMain v-if="!store.isError"></QuizMain>
+        <QuizMain v-if="!isError"></QuizMain>
         <QuizError v-else></QuizError>
         <QuizFooter></QuizFooter>
       </div>

@@ -1,10 +1,12 @@
 <script setup>
 import { quizData } from '../store/store'
+import { storeToRefs } from 'pinia'
 const store = quizData()
+const { solutionShown, solutionClosed, activeQuestion } = storeToRefs(store)
 </script>
 <template>
   <div class="mcq-solution" data-testid="mcq-solution">
-    <p class="mcq-solution__text" :aria-hidden="store.solutionShown && !store.solutionClosed ? false : true" v-html="store.activeQuestion.solution"></p>
+    <p class="mcq-solution__text" :aria-hidden="solutionShown && !solutionClosed ? false : true" v-html="activeQuestion.solution"></p>
   </div>
 </template>
 

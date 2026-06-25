@@ -1,26 +1,40 @@
 <script setup>
 import { quizData } from '../store/store'
+import { storeToRefs } from 'pinia'
 const store = quizData()
+
+const {
+  fetching,
+  settingsOn,
+  questionText,
+  questionOptions,
+  isSubmitted,
+  isCorrect,
+  activeQuestion,
+  selectedAnswer,
+  isShowSolution
+} = storeToRefs(store)
+
 </script>
 <template>
-  <div class="mcq-body" :class="{ 'mcq-body--fetching': store.fetching, 'mcq-body--hidden': store.settingsOn }">
-    <p class="mcq-question" data-testid="mcq-question" v-html="store.questionText"></p>
+  <div class="mcq-body" :class="{ 'mcq-body--fetching': fetching, 'mcq-body--hidden': settingsOn }">
+    <p class="mcq-question" data-testid="mcq-question" v-html="questionText"></p>
     <div class="mcq-options">
       <button
-        v-for="(option, index) in store.questionOptions"
+        v-for="(option, index) in questionOptions"
         :key="`option-${index}`"
         data-testid="mcq-option"
-        :disabled="store.isSubmitted"
+        :disabled="isSubmitted"
         class="mcq-options__option"
         :class="{
-          'mcq-options__option--selected': index == store.selectedAnswer && !store.isSubmitted,
+          'mcq-options__option--selected': index == selectedAnswer && !isSubmitted,
           'mcq-options__option--correct':
-            index == store.selectedAnswer && store.isSubmitted && store.isCorrect,
+            index == selectedAnswer && isSubmitted && isCorrect,
           'mcq-options__option--wrong':
-            index == store.selectedAnswer && store.isSubmitted && !store.isCorrect,
+            index == selectedAnswer && isSubmitted && !isCorrect,
           'mcq-options__option--showsolution':
-            store.isShowSolution && index == store.activeQuestion.correctIndex,
-          'mcq-options__option--disabled': store.isSubmitted,
+            isShowSolution && index == activeQuestion.correctIndex,
+          'mcq-options__option--disabled': isSubmitted,
         }"
         @click="store.selectAnswer(index)"
       >

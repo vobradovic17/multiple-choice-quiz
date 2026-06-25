@@ -1,22 +1,31 @@
 <script setup>
 import { quizData } from '../store/store'
+import { storeToRefs } from 'pinia'
 const store = quizData()
+
+const {
+  fetching,
+  activeQuestion,
+  questions,
+  questionIndex
+} = storeToRefs(store)
+
 </script>
 <template>
   <div class="mcq-header" data-testid="mcq-header">
     <div class="mcq-header__inner">
       <p class="mcq-title">Multiple Choice Quiz</p>
       <p class="mcq-theme">Theme:
-        <span class="mcq-theme__text" :class="{'mcq-theme__text--fetching': store.fetching}"> {{ store.activeQuestion.theme }}</span></p>
+        <span class="mcq-theme__text" :class="{'mcq-theme__text--fetching': fetching}"> {{ activeQuestion.theme }}</span></p>
     </div>
     <div class="mcq-bullets">
       <div
-        v-for="(question, index) in store.questions"
+        v-for="(question, index) in questions"
         :key="`question-${index}`"
         data-testid="mcq-bullet"
         class="mcq-bullets__bullet"
         :class="{
-          'mcq-bullets__bullet--active': index == store.questionIndex,
+          'mcq-bullets__bullet--active': index == questionIndex,
           'mcq-bullets__bullet--correct': question.isAnswered && question.isCorrect,
           'mcq-bullets__bullet--wrong': question.isAnswered && !question.isCorrect,
         }"
